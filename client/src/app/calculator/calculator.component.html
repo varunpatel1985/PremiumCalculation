@@ -1,0 +1,64 @@
+<form [formGroup]='calculatorForm' (ngSubmit)="calculatorForm.valid" autocomplete="off">
+    <h2 class="text centre text-primary">Premium Calculator</h2>
+    <hr> 
+    <div class="form-group">
+        <input 
+            [class.is-invalid]='calculatorForm.get("name")?.errors && calculatorForm.get("name")?.touched'
+            type="text" 
+            class="form-control" 
+            formControlName='name' 
+            placeholder="Enter your name">
+            <div class="invalid-feedback">Please enter a name</div>
+    </div>
+    <div class="form-group">
+        <input 
+            [class.is-invalid]='calculatorForm.get("age")?.errors && calculatorForm.get("age")?.touched'
+            type="text" 
+            class="form-control" 
+            formControlName='age' 
+            placeholder="Enter your age">
+            <div class="invalid-feedback">Please enter a age</div>
+    </div>
+ 
+    <div class="form-group">
+        <input 
+        type="text"
+        [class.is-invalid]='calculatorForm.get("dateOfBirth")?.errors && calculatorForm.get("dateOfBirth")?.touched'
+        class="form-control"
+        formControlName='dateOfBirth' 
+        placeholder="Select Date of birth"     
+        bsDatepicker
+        [bsConfig]='bsConfig'
+        >
+    
+        <div class="invalid-feedback">Please enter a Date of Birth</div>
+    </div>
+
+    
+    <div class="form-group">
+        <input 
+            [class.is-invalid]='calculatorForm.get("deathSumInsured")?.errors && calculatorForm.get("deathSumInsured")?.touched'
+            type="text" 
+            class="form-control" 
+            formControlName='deathSumInsured' 
+            placeholder="Enter sum insured">
+            <div class="invalid-feedback">Please enter a Sum Insured</div>
+    </div>
+      
+    <div class="form-group">
+        <select 
+            [class.is-invalid]='calculatorForm.get("occupation")?.errors && calculatorForm.get("occupation")?.touched'
+            (change)="calculatePremium()"
+            type="text" 
+            class="form-control" 
+            formControlName='occupation' 
+            placeholder="Select occupation"
+            >
+            <option value="" disabled>occupation</option>
+            <option *ngFor="let city of occupationList" [ngValue]="city">{{city}}</option>
+        </select>
+            <div class="invalid-feedback">Please select occupation</div>
+    </div>
+ 
+    <div><h1>Total Premium is {{calculatedPremium}}</h1></div>    
+</form>
