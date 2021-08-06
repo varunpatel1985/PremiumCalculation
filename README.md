@@ -12,14 +12,14 @@ Two components has been created in Angular client app.
 Validation has been done in reactive form and with creating custom directives 
 
 *****Testing steps*****
---Client application--
+**Client application**
 
 1: Run Command prompt 
 2: Navigate to TAL_PremiumCalculation/client/src/app 
 3: Run  command  "npm start"
 4: application start running on "http://localhost:4200/"
 
---API application--
+**API application**
 1: Run new instance of command prompt
 2: Navigate to TAL_PremiumCalculation\API
 3: Run command "dotnet run watch"
