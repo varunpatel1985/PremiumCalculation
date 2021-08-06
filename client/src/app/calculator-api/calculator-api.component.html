@@ -1,9 +1,8 @@
 <form [formGroup]='calculatorForm' (ngSubmit)="calculatorForm.valid" autocomplete="off">
     <div class="jumbotron">
-        <h1>Premium Calculator</h1>
-        <p>is return a monthly premium amount to be calculated</p>
+        <h1>Premium Calculator Api</h1>
+        <p>is return a monthly premium amount to be calculated derived from Api callings</p>
       </div>
-    <h2 class="text centre text-primary"></h2>
     <hr> 
     <div class="form-group">
         <input 
@@ -19,8 +18,8 @@
         <input 
             [class.is-invalid]='calculatorForm.get("age")?.errors && calculatorForm.get("age")?.touched'
             type="text" 
-            appNumberOnlyValidator
             class="form-control" 
+            appNumberOnlyValidator
             formControlName='age' 
             placeholder="Enter your age">
             <div class="invalid-feedback">Please enter a age</div>
@@ -55,23 +54,21 @@
     <div class="form-group">
         <select 
             [class.is-invalid]='calculatorForm.get("occupation")?.errors && calculatorForm.get("occupation")?.touched'
-            (change)="calculatePremium()"
+            (change)="calculatePremiumFromApi()"
             type="text" 
             class="form-control" 
             formControlName='occupation' 
-           >
+           
+            >
             <option value="" disabled>Select occupation</option>
             <option *ngFor="let city of occupationList" [ngValue]="city">{{city}}</option>
         </select>
             <div class="invalid-feedback">Please select occupation</div>
     </div>
- 
     <alert *ngIf="calculatedPremium>0" type="info">
         <h1>Total monthly premium is {{calculatedPremium}}</h1>
-      </alert> 
+      </alert>
       <div class="form-group text-centre">        
         <button class="btn btn-primary btn-lg mr-2" (click)="reset()" type="button">Reset</button>
     </div>
-
-   
 </form>

@@ -24,7 +24,7 @@ export class CalculatorComponent implements OnInit {
     }
 
     this.calculatorForm = this.fb.group({
-      name: ['',Validators.required],
+      name: ['',Validators.required,Validators.pattern('^[a-zA-Z \-\']+')],
       age: ['',Validators.required],    
       dateOfBirth: ['',Validators.required],
       occupation: ['',Validators.required],
@@ -71,7 +71,11 @@ export class CalculatorComponent implements OnInit {
 
    }
 
-
+reset()
+{
+  this.calculatorForm.reset();
+  this.calculatedPremium = 0;
+}
 
 
 }
