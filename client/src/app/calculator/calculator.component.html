@@ -1,11 +1,11 @@
 <form [formGroup]='calculatorForm' (ngSubmit)="calculatorForm.valid" autocomplete="off">
     <div class="jumbotron">
-        <h1>Premium Calculator</h1>
-        <p>is return a monthly premium amount to be calculated</p>
+        <h1>Premium Calculator</h1>       
       </div>
     <h2 class="text centre text-primary"></h2>
     <hr> 
     <div class="form-group">
+        <label for="name"><strong>Name</strong></label>
         <input 
             [class.is-invalid]='calculatorForm.get("name")?.errors && calculatorForm.get("name")?.touched'
             type="text" 
@@ -15,18 +15,10 @@
             placeholder="Enter your name">
             <div class="invalid-feedback">Please enter a name</div>
     </div>
-    <div class="form-group">
-        <input 
-            [class.is-invalid]='calculatorForm.get("age")?.errors && calculatorForm.get("age")?.touched'
-            type="text" 
-            appNumberOnlyValidator
-            class="form-control" 
-            formControlName='age' 
-            placeholder="Enter your age">
-            <div class="invalid-feedback">Please enter a age</div>
-    </div>
+   
  
     <div class="form-group">
+        <label for="dateOfBirth"><strong>Date of birth</strong></label>
         <input 
         type="text"
         [class.is-invalid]='calculatorForm.get("dateOfBirth")?.errors && calculatorForm.get("dateOfBirth")?.touched'
@@ -35,16 +27,29 @@
         placeholder="Select Date of birth"     
         bsDatepicker
         [bsConfig]='bsConfig'
+        (ngModelChange)="getAge($event)"
         >
     
         <div class="invalid-feedback">Please enter a Date of Birth</div>
     </div>
-
+ <div *ngIf="this.calculatorForm.get('age')?.value != null" class="form-group">
+        <label for="age"><strong>Age</strong></label>
+        <input 
+            [class.is-invalid]='calculatorForm.get("age")?.errors && calculatorForm.get("age")?.touched'
+            type="text" 
+            [readOnly]="true"
+            appNumberOnlyValidator
+            class="form-control" 
+            formControlName='age' 
+            placeholder="Enter your age">
+            <div class="invalid-feedback">Please enter a age</div>
+    </div>
     
     <div class="form-group">
+        <label for="deathSumInsured"><strong>Sum insured</strong></label>
         <input 
             [class.is-invalid]='calculatorForm.get("deathSumInsured")?.errors && calculatorForm.get("deathSumInsured")?.touched'
-            type="text" 
+            type="text"            
             class="form-control" 
             appNumberOnlyValidator
             formControlName='deathSumInsured' 
@@ -53,6 +58,7 @@
     </div>
       
     <div class="form-group">
+        <label for="occupation"><strong>Occupation</strong></label>
         <select 
             [class.is-invalid]='calculatorForm.get("occupation")?.errors && calculatorForm.get("occupation")?.touched'
             (change)="calculatePremium()"
@@ -67,7 +73,7 @@
     </div>
  
     <alert *ngIf="calculatedPremium>0" type="info">
-        <h1>Total monthly premium is {{calculatedPremium}}</h1>
+        <h1>Total monthly premium is ${{calculatedPremium | number : '1.2' }}</h1>
       </alert> 
       <div class="form-group text-centre">        
         <button class="btn btn-primary btn-lg mr-2" (click)="reset()" type="button">Reset</button>

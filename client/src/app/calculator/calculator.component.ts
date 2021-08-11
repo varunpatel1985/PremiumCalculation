@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-calculator',
@@ -17,15 +18,15 @@ export class CalculatorComponent implements OnInit {
  
 
 
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder,private toastr: ToastrService) { 
     this.bsConfig = {
       containerClass: 'theme-blue',
       dateInputFormat: 'DD MMMM YYYY'
     }
 
     this.calculatorForm = this.fb.group({
-      name: ['',Validators.required,Validators.pattern('^[a-zA-Z \-\']+')],
-      age: ['',Validators.required],    
+      name: ['',Validators.required],
+      age: [null,Validators.required],    
       dateOfBirth: ['',Validators.required],
       occupation: ['',Validators.required],
       deathSumInsured: ['',Validators.required]
@@ -35,17 +36,38 @@ export class CalculatorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  
+    
   }
 
 
+  getAge(event:any)
+  {
+    let selectedDate  = new Date(this.calculatorForm.get('dateOfBirth')?.value);
+    let selectedYear = selectedDate.getUTCFullYear();
+    let currentDate = new Date();
+    let currentYear = currentDate.getUTCFullYear();
+    
+    
+    let age = currentYear - selectedYear;
+    if(age >0)
+    {
+      this.calculatorForm.controls['age'].setValue(age);
+    }    
+    else
+    {
+      this.toastr.error("Please select greater than  1 year")
+    }
+    
+  }
 
-
-   calculatePremium()
+   calculatePremium(occupation?: string, insuredsum?: number, age?: number)
    {
      let occupationRatingFactor
+     occupation = this.calculatorForm.get('occupation')?.value =="" ?occupation : this.calculatorForm.get('occupation')?.value;
+     insuredsum =this.calculatorForm.get('deathSumInsured')?.value  == 0 ? insuredsum : this.calculatorForm.get('deathSumInsured')?.value;
+     age= this.calculatorForm.get('age')?.value == null ? age : this.calculatorForm.get('age')?.value ;
 
-     switch (this.calculatorForm.get('occupation')?.value) {
+     switch (occupation) {
        
          case "Cleaner":
           case "Florist":
@@ -67,14 +89,17 @@ export class CalculatorComponent implements OnInit {
               break;
      }
 
-     this.calculatedPremium = (this.calculatorForm.get('deathSumInsured')?.value * occupationRatingFactor * this.calculatorForm.get('age')?.value) / 1000 * 12;
-
+     if(insuredsum != undefined && age != undefined)
+     this.calculatedPremium = ( insuredsum * occupationRatingFactor * age) / 1000 * 12;
+     this.toastr.success("Premium calculated successfully!!");
    }
 
 reset()
 {
   this.calculatorForm.reset();
   this.calculatedPremium = 0;
+  this.calculatorForm.controls['age'].setValue(null);
+  this.toastr.success("Form resets complete !!");
 }
 
 

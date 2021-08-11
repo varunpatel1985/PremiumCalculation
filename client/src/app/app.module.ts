@@ -15,6 +15,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { AlphabetOnlyValidationDirective } from './_directives/alphabet-only-validation.directive';
 import { NumberOnlyValidatorDirective } from './_directives/number-only-validator.directive';
+import { CommonModule } from '@angular/common';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,11 @@ import { NumberOnlyValidatorDirective } from './_directives/number-only-validato
     DatepickerModule.forRoot(),
     AccordionModule.forRoot() ,
     HttpClientModule,
-    AlertModule.forRoot()
+    AlertModule.forRoot(),
+    CommonModule,
+    ToastrModule.forRoot({
+      positionClass:'toast-bottom-center'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
